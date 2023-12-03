@@ -1,0 +1,165 @@
+@startuml
+!pragma layout smetana
+'https://plantuml.com/class-diagram
+
+'Pakker, model og util
+'Domænemodel giver nye entity klasser
+
+package "util"
+{
+
+Interface IO{
++ List <User> readUserData(String path)
++ void saveUserData(List <User> users)
++ List<String> readMovieData(String path, int length)
++ List<String> readSeriesData(String path, int length)
+}
+
+Class FileIO{
+- Scanner scanner
+- File file
++ List <User> readUserData(String path)
++ void saveUserData(List <User> users)
++ List<String> readMovieData(String path, int length)
++ List<String> readSeriesData(String path, int length)
+}
+
+Class DatabaseIO{
+- Scanner scanner
+- File file
++ List <User> readUserData(String path)
++ void saveUserData(List <User> users)
++ List<String> readMovieData(String path, int length)
++ List<String> readSeriesData(String path, int length)
+}
+
+
+Class TextUI{
+- Scanner scanner
++ String getInput(String msg)
++ void displayMessage(String msg)
+}
+
+Class DataValidator{
++ String validatePassword()
++ String validateUserName()
+}
+
+}
+
+package "model"
+{
+Abstract Class Media{
+- String title
+- String genre
+- double rating
+- int releaseDate
++ String getTitle()
++ double getRating()
++ int getReleaseDate()
++ String getGenre()
+}
+
+Class Movie{
+- String title
+- String genre
+- double rating
+- int releaseDate
++ String getTitle()
++ double getRating()
++ int getReleaseDate()
++ String getGenre()
+}
+
+Class Series{
+- String title
+- String genre
+- double rating
+- int releaseDate
+- int season
+- int episode
++ String getTitle()
++ double getRating()
++ int getReleaseDate()
++ String getGenre()
++ int getEpisodes()
++ int getSeason()
+}
+
+Class User{
+- String username
+- String password
+- List<Media> watchedList
+- List<Media> media
+- List<Media> myList
++ void addToMyList(Media media)
++ void removeFromMyList(Media media))
+}
+
+
+Class MyList{
+- List<Media> myList
++ addToMyList(Media media)
++ removeFromMyList(Media media)
++ getMyList()
+}
+
+Class WatchedList{
+- List <Media> watchedList
++ addToWatchedList(Media media)
++ removeFromWatchedList(Media media))
+
+}
+
+}
+
+Class StreamingService{
+- IO io
+- TextUI ui
+- List<Content> content
+- List<User> users
++ void setup()
++ void startMenu()
++ void mainMenu()
++ void Login()
++ void Logout()
++ void addUser(User user)
++ void removeUser(User user)
++ void searchAll()
++ void searchByName()
++ void searchByDateOfRelease()
++ void searchByRating()
++ void searchByGenre()
+}
+
+Class Content{
+
+- List<Media> media
+
++ addMovie()
++ addSeries()
++ removeMovie()
++ removeSeries()
+}
+
+Class Main
+Main : + static void main (String [] args)
+
+Main *-- StreamingService
+StreamingService *-- IO
+StreamingService *-- User
+StreamingService *-- TextUI
+
+StreamingService *-- Content
+User *-- Media
+TextUI *-- DataValidator
+FileIO *-- Content
+User *-- MyList
+User *-- WatchedList
+Media *-- Content
+Media <|-- Movie
+Media <|-- Series
+IO <|-- FileIO
+IO <|-- DatabaseIO
+
+@enduml
